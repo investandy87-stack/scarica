@@ -1,61 +1,75 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scarica Giro Veloce</title>
   <style>
-    body {
-      margin: 0; font-family: system-ui, -apple-system, sans-serif;
-      background: #0f172a; color: #ffffff;
-      display: flex; align-items: center; justify-content: center;
-      min-height: 100vh; padding: 16px; box-sizing: border-box;
-    }
-    .card {
-      width: 100%; max-width: 400px; background: #1e293b;
-      border-radius: 18px; padding: 22px 18px; text-align: center;
-      border-top: 6px solid #eab308; box-shadow: 0 20px 45px rgba(0,0,0,0.5);
-    }
-    .van { font-size: 46px; margin-bottom: 4px; }
-    h1 { margin: 0 0 14px; font-size: 26px; color: #fde047; }
-    .warn-box {
-      background: #fef2f2; color: #991b1b; border: 3px solid #dc2626;
-      border-radius: 12px; padding: 14px 12px; margin-bottom: 18px;
-      text-align: left; line-height: 1.45;
-    }
-    .warn-title { font-size: 15px; font-weight: 900; color: #dc2626; margin-bottom: 6px; }
-    .warn-steps { font-size: 15px; font-weight: 900; color: #0f172a; }
-    .off-badge {
-      display: inline-block; background: #dc2626; color: #ffffff;
-      padding: 2px 8px; border-radius: 6px; font-weight: 900;
-    }
-    .btn-dl {
-      display: block; text-decoration: none; background: #eab308; color: #0f172a;
-      font-size: 18px; font-weight: 900; padding: 16px; border-radius: 12px;
-      margin-bottom: 14px;
-    }
-    .note { font-size: 13px; color: #cbd5e1; line-height: 1.45; text-align: left; }
+    body { margin:0; font-family:system-ui,sans-serif; background:#0f172a; color:#fff; display:flex; align-items:center; justify-content:center; min-height:100vh; padding:14px; box-sizing:border-box; }
+    .card { width:100%; max-width:400px; background:#1e293b; border-radius:18px; padding:20px 16px; text-align:center; border-top:6px solid #eab308; box-shadow:0 16px 40px rgba(0,0,0,0.5); }
+    h1 { margin:4px 0 14px; font-size:24px; color:#fde047; }
+    .warn { background:#fef2f2; color:#0f172a; border:3px solid #dc2626; border-radius:12px; padding:12px; margin-bottom:16px; text-align:left; font-weight:900; font-size:14px; line-height:1.45; }
+    .warn-t { color:#dc2626; font-size:15px; margin-bottom:4px; }
+    .off { background:#dc2626; color:#fff; padding:2px 7px; border-radius:5px; }
+    .btn-dl { display:block; text-decoration:none; background:#eab308; color:#0f172a; font-size:17px; font-weight:900; padding:15px; border-radius:12px; margin-bottom:14px; }
+    .code-box { display:none; background:#0f172a; border:2px dashed #38bdf8; border-radius:12px; padding:14px 12px; margin-bottom:14px; }
+    .code-val { font-size:22px; font-weight:900; letter-spacing:1.5px; color:#fde047; margin:6px 0 10px; user-select:all; }
+    .btn-copy { width:100%; border:none; background:#16a34a; color:#fff; font-size:16px; font-weight:900; padding:13px; border-radius:10px; cursor:pointer; }
+    .note { font-size:13px; color:#cbd5e1; text-align:left; line-height:1.45; }
   </style>
 </head>
 <body>
   <div class="card">
-    <div class="van">🚐</div>
+    <div style="font-size:42px;">🚐</div>
     <h1>GIRO VELOCE</h1>
-    <div class="warn-box">
-      <div class="warn-title">⚠️ IMPORTANTE PER TELEFONI SAMSUNG:</div>
-      <div class="warn-steps">
-        PRIMA DI SCARICARE VAI SUL TELEFONO IN:<br>
-        IMPOSTAZIONI ➔ SICUREZZA E PRIVACY ➔ BLOCCO AUTOMATICO<br>
-        E METTILO SU <span class="off-badge">OFF (DISATTIVATO)</span>
-      </div>
+
+    <div class="warn">
+      <div class="warn-t">⚠️ IMPORTANTE PER SAMSUNG:</div>
+      PRIMA DI SCARICARE VAI IN:<br>
+      IMPOSTAZIONI ➔ SICUREZZA E PRIVACY ➔ BLOCCO AUTOMATICO<br>
+      E METTILO SU <span class="off">OFF (DISATTIVATO)</span>
     </div>
-    <a class="btn-dl" href="./GiroVeloce.apk" download="GiroVeloce.apk">
-      📥 SCARICA GIRO VELOCE
-    </a>
+
+    <a class="btn-dl" href="./GiroVeloce.apk" download="GiroVeloce.apk">📥 1. SCARICA GIRO VELOCE</a>
+
+    <div id="codeBox" class="code-box">
+      <div id="codeDays" style="font-size:13px;color:#94a3b8;font-weight:700;">IL TUO CODICE DI ATTIVAZIONE:</div>
+      <div id="codeText" class="code-val"></div>
+      <button id="copyBtn" class="btn-copy" onclick="copyCode()">📋 2. COPIA SOLO IL CODICE</button>
+    </div>
+
     <div class="note">
-      1️⃣ Finito il download tocca <b>Apri</b> ➔ <b>Installa</b> <i>(se esce Play Protect tocca Altri dettagli ➔ Installa comunque)</i>.<br><br>
-      2️⃣ Apri l'app e inserisci il tuo <b>Codice di Attivazione</b>.
+      • Finito il download tocca <b>Apri ➔ Installa</b> <i>(se esce Play Protect tocca Altri dettagli ➔ Installa comunque)</i>.<br>
+      • Apri l'app, incolla il codice copiato e premi <b>Attiva</b>.
     </div>
   </div>
+
+  <script>
+    const p = new URLSearchParams(window.location.search);
+    const c = (p.get('c') || '').trim();
+    const d = p.get('d') || '';
+    if (c) {
+      document.getElementById('codeBox').style.display = 'block';
+      document.getElementById('codeText').textContent = c;
+      if (d) document.getElementById('codeDays').textContent = 'IL TUO CODICE (' + d + ' GIORNI):';
+    }
+    function copyCode() {
+      if (!c) return;
+      const ok = () => {
+        const b = document.getElementById('copyBtn');
+        b.textContent = '✅ CODICE COPIATO! INCOLLALO NELL\'APP';
+        b.style.background = '#0284c7';
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(c).then(ok).catch(() => fallbackCopy(ok));
+      } else { fallbackCopy(ok); }
+    }
+    function fallbackCopy(cb) {
+      const t = document.createElement('textarea');
+      t.value = c; document.body.appendChild(t);
+      t.select(); document.execCommand('copy');
+      document.body.removeChild(t); cb();
+    }
+  </script>
 </body>
 </html>
