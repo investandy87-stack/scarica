@@ -30,10 +30,10 @@
       E METTILO SU <span class="off">OFF (DISATTIVATO)</span>
     </div>
 
-    <a class="btn-dl" href="./GiroVeloce.apk" download="GiroVeloce.apk">📥 1. SCARICA GIRO VELOCE</a>
+    <a id="dlBtn" class="btn-dl" href="https://github.com/investandy87-stack/scarica/releases/latest/download/GiroVeloce.apk">📥 1. SCARICA GIRO VELOCE</a>
 
     <div id="codeBox" class="code-box">
-      <div id="codeDays" style="font-size:13px;color:#94a3b8;font-weight:700;">IL TUO CODICE DI ATTIVAZIONE:</div>
+      <div id="codeDays" style="font-size:13px;color:#94a3b8;font-weight:700;">IL TUO CODICE DI ATTIVAZIONE</div>
       <div id="codeText" class="code-val"></div>
       <button id="copyBtn" class="btn-copy" onclick="copyCode()">📋 2. COPIA SOLO IL CODICE</button>
     </div>
@@ -45,19 +45,36 @@
   </div>
 
   <script>
+    fetch('https://api.github.com/repos/investandy87-stack/scarica/releases')
+      .then(r => r.ok ? r.json() : null)
+      .then(list => {
+        if (!Array.isArray(list)) return;
+        for (const rel of list) {
+          const apk = (rel.assets || []).find(a => a.name && a.name.toLowerCase().endsWith('.apk'));
+          if (apk && apk.browser_download_url) {
+            document.getElementById('dlBtn').href = apk.browser_download_url;
+            break;
+          }
+        }
+      })
+      .catch(() => {});
+
     const p = new URLSearchParams(window.location.search);
     const c = (p.get('c') || '').trim();
     const d = p.get('d') || '';
     if (c) {
       document.getElementById('codeBox').style.display = 'block';
       document.getElementById('codeText').textContent = c;
-      if (d) document.getElementById('codeDays').textContent = 'IL TUO CODICE (' + d + ' GIORNI):';
+      if (d) {
+        const lbl = d === '36500' ? 'PER SEMPRE' : (d === '180' ? '6 MESI' : d + ' GIORNI');
+        document.getElementById('codeDays').textContent = 'IL TUO CODICE (' + lbl + ')';
+      }
     }
     function copyCode() {
       if (!c) return;
       const ok = () => {
         const b = document.getElementById('copyBtn');
-        b.textContent = '✅ CODICE COPIATO! INCOLLALO NELL\'APP';
+        b.textContent = "✅ CODICE COPIATO! INCOLLALO NELL'APP";
         b.style.background = '#0284c7';
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
